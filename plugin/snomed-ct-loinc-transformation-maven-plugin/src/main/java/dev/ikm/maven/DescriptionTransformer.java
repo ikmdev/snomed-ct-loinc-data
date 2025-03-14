@@ -68,15 +68,15 @@ public class DescriptionTransformer extends AbstractTransformer {
                 .forEach(data -> {
                     State status = Integer.parseInt(data[ACTIVE]) == 1 ? State.ACTIVE : State.INACTIVE;
                     long time = SnomedLoincUtility.snomedTimestampToEpochSeconds(data[EFFECTIVE_TIME]);
-                    EntityProxy.Concept moduleId = EntityProxy.Concept.make(PublicIds.of(UuidUtil.fromSNOMED(data[MODULE_ID])));
+                    EntityProxy.Concept moduleId = EntityProxy.Concept.make(PublicIds.of(SnomedLoincUtility.generateUUID(namespace, data[MODULE_ID])));
                     Session session = composer.open(status, time, author, moduleId, path);
-                    EntityProxy.Semantic descriptionSemantic = EntityProxy.Semantic.make(PublicIds.of(UuidUtil.fromSNOMED(data[ID])));
+                    EntityProxy.Semantic descriptionSemantic = EntityProxy.Semantic.make(PublicIds.of(SnomedLoincUtility.generateUUID(namespace, data[ID])));
 
                     EntityProxy.Concept descriptionType = SnomedLoincUtility.getDescriptionType(data[TYPE_ID]);
                     EntityProxy.Concept languageType = SnomedLoincUtility.getLanguageConcept(data[LANGUAGE_CODE]);
                     EntityProxy.Concept caseSensitivityConcept = SnomedLoincUtility.getDescriptionCaseSignificanceConcept(data[CASE_SIGNIFICANCE]);
 
-                    PublicId publicId = PublicIds.of(UuidUtil.fromSNOMED(data[CONCEPT_ID]));
+                    PublicId publicId = PublicIds.of(SnomedLoincUtility.generateUUID(namespace, data[CONCEPT_ID]));
                     EntityProxy.Concept concept = EntityProxy.Concept.make(publicId);
 
                     previousRowId = data[ID];

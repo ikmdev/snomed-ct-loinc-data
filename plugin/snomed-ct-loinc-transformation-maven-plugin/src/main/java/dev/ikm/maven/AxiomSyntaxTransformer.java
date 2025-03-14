@@ -68,13 +68,13 @@ public class AxiomSyntaxTransformer extends AbstractTransformer {
                    String[] columns = line.split("\t");
                    long time = SnomedLoincUtility.snomedTimestampToEpochSeconds(columns[EFFECTIVE_TIME]);
                    State status = columns[ACTIVE].equals("1") ? State.ACTIVE : State.INACTIVE;
-                   EntityProxy.Concept module = EntityProxy.Concept.make(PublicIds.of(UuidUtil.fromSNOMED(columns[MODULE_ID])));
+                   EntityProxy.Concept module = EntityProxy.Concept.make(PublicIds.of(SnomedLoincUtility.generateUUID(namespace, columns[MODULE_ID])));
 
                    Session session = composer.open(status, time, author, module, path);
-                   String owlExpressionWithPublicIds = SnomedLoincUtility.owlAxiomIdsToPublicIds(columns[OWL_EXPRESSION]);
+                   String owlExpressionWithPublicIds = SnomedLoincUtility.owlAxiomIdsToPublicIds(namespace, columns[OWL_EXPRESSION]);
 
-                   EntityProxy.Concept concept = EntityProxy.Concept.make(PublicIds.of(UuidUtil.fromSNOMED(columns[REFERENCED_COMPONENT_ID])));
-                   EntityProxy.Semantic axiomSemantic = EntityProxy.Semantic.make(PublicIds.of(UuidUtil.fromSNOMED(columns[ID])));
+                   EntityProxy.Concept concept = EntityProxy.Concept.make(PublicIds.of(SnomedLoincUtility.generateUUID(namespace, columns[REFERENCED_COMPONENT_ID])));
+                   EntityProxy.Semantic axiomSemantic = EntityProxy.Semantic.make(PublicIds.of(SnomedLoincUtility.generateUUID(namespace, columns[ID])));
 
                    previousRowId = columns[ID];
 

@@ -16,7 +16,7 @@
 
     <build>
         <plugins>
-            <plugin>
+            <!--plugin>
                 <groupId>dev.ikm.tinkar</groupId>
                 <artifactId>tinkar-data-maven-plugin</artifactId>
                 <version>${tinkar-starter-data.version}</version>
@@ -32,7 +32,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
             <plugin>
                 <groupId>dev.ikm.snomedctloinc</groupId>
                 <artifactId>snomed-ct-loinc-starterdata-maven-plugin</artifactId>

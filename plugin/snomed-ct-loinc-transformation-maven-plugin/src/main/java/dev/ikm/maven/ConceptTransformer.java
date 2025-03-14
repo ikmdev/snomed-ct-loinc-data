@@ -64,7 +64,7 @@ public class ConceptTransformer extends AbstractTransformer {
                 .forEach(data -> {
                     State status = Integer.parseInt(data[ACTIVE]) == 1 ? State.ACTIVE : State.INACTIVE;
                     long time = SnomedLoincUtility.snomedTimestampToEpochSeconds(data[EFFECTIVE_TIME]);
-                    EntityProxy.Concept moduleIdConcept = EntityProxy.Concept.make(PublicIds.of(UuidUtil.fromSNOMED(data[MODULE_ID])));
+                    EntityProxy.Concept moduleIdConcept = EntityProxy.Concept.make(PublicIds.of(SnomedLoincUtility.generateUUID(namespace, data[MODULE_ID])));
                     Session session = composer.open(status, time, author, moduleIdConcept, path);
                     configureIdentifier(session, data[ID]);
                 });
@@ -79,7 +79,7 @@ public class ConceptTransformer extends AbstractTransformer {
      * @param rowId represents each row in concept file
      */
     private void configureIdentifier(Session session, String rowId) {
-        PublicId publicId = PublicIds.of(UuidUtil.fromSNOMED(rowId));
+        PublicId publicId = PublicIds.of(SnomedLoincUtility.generateUUID(namespace, rowId));
         // TODO: Refactor programmatically linking/merging concepts
 //        if (rowId.equals("138875005")) { // Link SnomedCT Root Concept with Snomed CT Starter Data Health Concept
 //            publicId = PublicIds.of(new UUIDUtility().createUUID("SNOMED CT Concept"), UuidUtil.fromSNOMED(rowId));
@@ -97,7 +97,7 @@ public class ConceptTransformer extends AbstractTransformer {
                             .identifier(concept.asUuidArray()[0].toString())
                     )
                     .attach((Identifier identifier) -> identifier
-                            .source(SnomedLoincUtility.getIdentifierConcept())
+                            .source(TinkarTerm.SCTID)
                             .identifier(rowId)
                     )
             );

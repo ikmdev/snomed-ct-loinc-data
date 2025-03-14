@@ -43,7 +43,7 @@ public class IdentifierTransformer extends AbstractTransformer {
     private static final int EFFECTIVE_TIME = 1;
     private static final int ACTIVE = 2;
     private static final int MODULE_ID = 3;
-    private static final int DEFINITION_STATUS_ID = 4;
+    private static final int IDENTIFIER_SCHEME_ID = 4;
     private String previousRowId;
 
     IdentifierTransformer(UUID namespace) {super(namespace);}
@@ -63,10 +63,10 @@ public class IdentifierTransformer extends AbstractTransformer {
                     .forEach(data -> {
                         State status = Integer.parseInt(data[ACTIVE]) == 1 ? State.ACTIVE : State.INACTIVE;
                         long time = SnomedLoincUtility.snomedTimestampToEpochSeconds(data[EFFECTIVE_TIME]);
-                        EntityProxy.Concept moduleIdConcept = EntityProxy.Concept.make(PublicIds.of(UuidUtil.fromSNOMED(data[MODULE_ID])));
+                        EntityProxy.Concept moduleIdConcept = EntityProxy.Concept.make(PublicIds.of(SnomedLoincUtility.generateUUID(namespace, data[MODULE_ID])));
                         Session session = composer.open(status, time, author, moduleIdConcept, path);
 
-                        PublicId publicId = PublicIds.of(UuidUtil.fromSNOMED(data[REFCOMPID]));
+                        PublicId publicId = PublicIds.of(SnomedLoincUtility.generateUUID(namespace, data[REFCOMPID]));
                         EntityProxy.Concept concept = EntityProxy.Concept.make(publicId);
                         if (!data[ID].equals(previousRowId)) {
                             session.compose((ConceptAssembler conceptAssembler) -> conceptAssembler
@@ -76,7 +76,7 @@ public class IdentifierTransformer extends AbstractTransformer {
                                             .identifier(concept.asUuidArray()[0].toString())
                                     )
                                     .attach((Identifier identifier) -> identifier
-                                            .source(SnomedLoincUtility.getSnomedLoincIdentifierConcept())
+                                            .source(SnomedLoincUtility.getSnomedLoincIdentifierConcept(namespace, data[IDENTIFIER_SCHEME_ID]))
                                             .identifier(data[ID])
                                     )
                             );

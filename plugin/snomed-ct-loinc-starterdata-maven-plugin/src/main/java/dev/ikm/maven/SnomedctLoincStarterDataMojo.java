@@ -85,7 +85,8 @@ public class SnomedctLoincStarterDataMojo extends AbstractMojo
                     )
             );
 
-            EntityProxy.Concept loincIdentifier = EntityProxy.Concept.make("LOINC Number",  UuidT5Generator.get(namespace,"705114005"));
+            // loincIdentifier is not needed
+            /*EntityProxy.Concept loincIdentifier = EntityProxy.Concept.make("LOINC Number",  UuidT5Generator.get(namespace,"705114005"));
             session.compose((ConceptAssembler concept) -> concept
                     .concept(loincIdentifier)
                     .attach((FullyQualifiedName fqn) -> fqn
@@ -110,7 +111,7 @@ public class SnomedctLoincStarterDataMojo extends AbstractMojo
                     .attach((StatedAxiom statedAxiom) -> statedAxiom
                             .isA(TinkarTerm.IDENTIFIER_SOURCE)
                     )
-            );
+            );*/
             composer.commitSession(session);
             PrimitiveData.stop();
         } catch (Exception e) {

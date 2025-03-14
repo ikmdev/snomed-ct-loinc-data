@@ -1,6 +1,7 @@
 package dev.ikm.tinkar.snomedctloinc.integration;
 
 import dev.ikm.maven.SnomedLoincUtility;
+import dev.ikm.tinkar.common.util.uuid.UuidUtil;
 import dev.ikm.tinkar.coordinate.Calculators;
 import dev.ikm.tinkar.coordinate.stamp.StampCoordinateRecord;
 import dev.ikm.tinkar.coordinate.stamp.StampPositionRecord;
@@ -41,7 +42,7 @@ public class SnomedLoincAxiomSemanticIT extends SnomedLoincAbstractIntegrationTe
     protected boolean assertLine(String[] columns) {
         long effectiveTime = SnomedLoincUtility.snomedTimestampToEpochSeconds(columns[1]);
         StateSet snomedAxiomStatus = Integer.parseInt(columns[2]) == 1 ? StateSet.ACTIVE : StateSet.INACTIVE;
-        String owlAxiomStr = SnomedLoincUtility.owlAxiomIdsToPublicIds(columns[6]);
+        String owlAxiomStr = SnomedLoincUtility.owlAxiomIdsToPublicIds(UuidUtil.SNOMED_NAMESPACE, columns[6]);
         UUID id = uuid(columns[0]);
 
         StampPositionRecord stampPosition = StampPositionRecord.make(effectiveTime, TinkarTerm.DEVELOPMENT_PATH.nid());

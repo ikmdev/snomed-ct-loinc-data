@@ -61,11 +61,11 @@ public class LanguageTransformer extends AbstractTransformer {
                 .forEach((data) -> {
                     State status = Integer.parseInt(data[ACTIVE]) == 1 ? State.ACTIVE : State.INACTIVE;
                     long epochTime = SnomedLoincUtility.snomedTimestampToEpochSeconds(data[EFFECTIVE_TIME]);
-                    EntityProxy.Concept moduleId = EntityProxy.Concept.make(PublicIds.of(UuidUtil.fromSNOMED(data[MODULE_ID])));
+                    EntityProxy.Concept moduleId = EntityProxy.Concept.make(PublicIds.of(SnomedLoincUtility.generateUUID(namespace, data[MODULE_ID])));
 
                     Session session = composer.open(status, epochTime, author, moduleId, path);
 
-                    EntityProxy.Concept referencedComponent = EntityProxy.Concept.make(PublicIds.of(UuidUtil.fromSNOMED(data[REFERENCED_COMPONENT_ID])));
+                    EntityProxy.Concept referencedComponent = EntityProxy.Concept.make(PublicIds.of(SnomedLoincUtility.generateUUID(namespace, data[REFERENCED_COMPONENT_ID])));
 
                     session.compose((SemanticAssembler semanticAssembler) -> semanticAssembler
                             .pattern(SnomedLoincUtility.getDialectPattern(data[REFSET_ID]))

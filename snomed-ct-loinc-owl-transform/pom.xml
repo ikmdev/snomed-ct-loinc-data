@@ -21,7 +21,7 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>dev.ikm.maven</groupId>
+                <groupId>dev.ikm.maven.tinkar</groupId>
                 <artifactId>tinkar-maven-plugin</artifactId>
                 <executions>
                     <execution>
@@ -30,6 +30,9 @@
                         <goals>
                             <goal>run-owl-transformer</goal>
                         </goals>
+                        <configuration>
+                            <dataStore>${user.home}/Solor/generated-data</dataStore>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

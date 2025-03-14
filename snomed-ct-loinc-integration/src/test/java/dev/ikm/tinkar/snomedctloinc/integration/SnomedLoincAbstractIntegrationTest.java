@@ -1,5 +1,6 @@
 package dev.ikm.tinkar.snomedctloinc.integration;
 
+import dev.ikm.maven.SnomedLoincUtility;
 import dev.ikm.tinkar.common.service.CachingService;
 import dev.ikm.tinkar.common.service.PrimitiveData;
 import dev.ikm.tinkar.common.service.ServiceKeys;
@@ -94,8 +95,7 @@ public abstract class SnomedLoincAbstractIntegrationTest {
     }
 
     protected UUID uuid(String id) {
-        return UuidUtil.fromSNOMED(id);
-//        return UuidT5Generator.get(UUID.fromString("3094dbd1-60cf-44a6-92e3-0bb32ca4d3de"), id);
+        return SnomedLoincUtility.generateUUID(UuidUtil.SNOMED_NAMESPACE, id);
     }
 
     protected abstract boolean assertLine(String[] columns);
