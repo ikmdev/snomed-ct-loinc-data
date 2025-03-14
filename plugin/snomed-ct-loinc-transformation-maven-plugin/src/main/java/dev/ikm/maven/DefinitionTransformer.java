@@ -76,16 +76,16 @@ public class DefinitionTransformer extends AbstractTransformer {
                     .forEach(data -> {
                         State status = Integer.parseInt(data[ACTIVE]) == 1 ? State.ACTIVE : State.INACTIVE;
                         long epochTime = SnomedLoincUtility.snomedTimestampToEpochSeconds(data[EFFECTIVE_TIME]);
-                        EntityProxy.Concept moduleConcept = EntityProxy.Concept.make(PublicIds.of(UuidUtil.fromSNOMED(data[MODULE_ID])));
+                        EntityProxy.Concept moduleConcept = EntityProxy.Concept.make(PublicIds.of(SnomedLoincUtility.generateUUID(namespace, data[MODULE_ID])));
                         Session session = composer.open(status, epochTime, author, moduleConcept, path);
 
                         Concept referencedConcept = previousReferencedConcept;
                         EntityProxy.Semantic definitionSemantic;
 
                         if (!data[ID].equals(previousRowId)) {
-                            referencedConcept = Concept.make(PublicIds.of(UuidUtil.fromSNOMED(data[CONCEPT_ID])));
+                            referencedConcept = Concept.make(PublicIds.of(SnomedLoincUtility.generateUUID(namespace, data[CONCEPT_ID])));
 
-                            PublicId definitionPublicId = PublicIds.of(UuidUtil.fromSNOMED(data[ID]));
+                            PublicId definitionPublicId = PublicIds.of(SnomedLoincUtility.generateUUID(namespace, data[ID]));
                             definitionSemantic = EntityProxy.Semantic.make(definitionPublicId);
 
                             previousRowId = data[ID];

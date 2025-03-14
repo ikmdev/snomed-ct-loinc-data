@@ -6,7 +6,7 @@
     <parent>
         <groupId>dev.ikm.tinkar</groupId>
         <artifactId>snomed-ct-loinc-data-bom</artifactId>
-        <version>1.0.0</version>
+        <version>1.2.0</version>
         <relativePath/>
     </parent>
 
@@ -23,12 +23,14 @@
         <module>snomed-ct-loinc-starterdata</module>
         <module>snomed-ct-loinc-binding</module>
         <module>snomed-ct-loinc-pipeline</module>
+        <module>snomed-ct-loinc-owl-transform</module>
+        <module>snomed-ct-loinc-reasoner</module>
         <module>snomed-ct-loinc-integration</module>
     </modules>
 
     <properties>
         <!-- maven plugins -->
-        <maven-artifacts.version>1.14.0</maven-artifacts.version>
+        <maven-artifacts.version>1.17.0</maven-artifacts.version>
         <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
         <exec-maven-plugin.version>3.4.1</exec-maven-plugin.version>
         <maven-dependency-plugin.version>3.8.0</maven-dependency-plugin.version>

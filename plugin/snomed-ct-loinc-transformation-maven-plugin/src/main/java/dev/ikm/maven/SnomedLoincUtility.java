@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 
 public class SnomedLoincUtility {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SnomedLoincUtility .class.getSimpleName());
+    private static final Logger LOG = LoggerFactory.getLogger(SnomedLoincUtility.class.getSimpleName());
 
 
     /**
@@ -155,11 +155,37 @@ public class SnomedLoincUtility {
         return snomedIntID;
     }
 
-    public static Concept getSnomedLoincIdentifierConcept(){
-        Concept snomedIntID = Concept.make(PublicIds.of(UuidUtil.fromSNOMED("11010000107")));
-        return snomedIntID;
+    public static Concept getSnomedLoincIdentifierConcept(UUID namespace, String identifierSchemeId) {
+        if (identifierSchemeId.equals("705114005")) {
+            return Concept.make(PublicIds.of(generateUUID(namespace, "30051010000102")));
+        }
+        return Concept.make(PublicIds.of(generateUUID(namespace, identifierSchemeId)));
     }
 
+    private static String idToPublicId(UUID namespace, MatchResult id) {
+        String idString = id.group();
+        String publicIdString = PublicIds.of(generateUUID(namespace, idString)).toString();
+        return publicIdString.replaceAll("\"", "");
+    }
+
+    private static Pattern getFullIriPattern() {
+        // A full IRI is an IRI between "<" and ">"
+        // A Prefix declaration is a full IRI
+        // An Ontology declaration is a full IRI or an abbreviated IRI
+        // but Snomed only uses full IRI, so...
+        // <http://www.w3.org/2002/07/owl#>
+        // Pattern of characters between less-than and greater-than characters
+        return Pattern.compile("<[^>]+>");
+    }
+
+    private static String fullIriToPublicId(UUID namespace, MatchResult id) {
+        String fullIriString = id.group();
+        // the IRI for the public id does not include "<" or ">"
+        String iriString = fullIriString.substring(1, fullIriString.length() - 1);
+        // Generate UUID from URL bytes
+        String publicIdString = PublicIds.of(UuidT5Generator.get(namespace, iriString)).toString();
+        return "<" + publicIdString.replaceAll("\"", "") + ">";
+    }
 
     private static Pattern getIdPattern() {
         // Expecting a Snomed OR Loinc identifier following a colon as shown below
@@ -197,17 +223,18 @@ public class SnomedLoincUtility {
         return publicIdString.replaceAll("\"", "");
     }
 
-    public static String owlAxiomIdsToPublicIds(String owlExpression) {
+    public static String owlAxiomIdsToPublicIds(UUID namespace, String owlExpression) {
         String publicIdOwlExpression = owlExpression;
-        // Replace URLs with a UUID representation
-        if (owlExpression.contains("<") & owlExpression.contains(">")) {
-            Matcher urlMatcher = getUrlPattern().matcher(publicIdOwlExpression);
-            publicIdOwlExpression = urlMatcher.replaceAll(SnomedLoincUtility::urlToPublicId);
-        }
+        // Replace IRIs with a UUID representation
+        Matcher urlMatcher = getFullIriPattern().matcher(publicIdOwlExpression);
+        publicIdOwlExpression = urlMatcher.replaceAll(m -> fullIriToPublicId(namespace, m));
         // Replace Snomed identifiers with a UUID representation
         Matcher idMatcher = getIdPattern().matcher(publicIdOwlExpression);
-        publicIdOwlExpression = idMatcher.replaceAll(SnomedLoincUtility::idToPublicId);
+        publicIdOwlExpression = idMatcher.replaceAll(m -> idToPublicId(namespace, m));
         return publicIdOwlExpression;
     }
 
+    public static UUID generateUUID(UUID namespace, String id) {
+        return UuidT5Generator.get(namespace, id);
+    }
 }
