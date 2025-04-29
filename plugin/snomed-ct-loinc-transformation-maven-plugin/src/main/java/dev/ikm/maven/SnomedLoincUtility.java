@@ -30,7 +30,7 @@ import java.util.*;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import dev.ikm.tinkar.common.util.time.DateTimeUtil;
 
 public class SnomedLoincUtility {
 
@@ -43,13 +43,7 @@ public class SnomedLoincUtility {
      * @return long value of epochTime
      */
     public static long snomedTimestampToEpochSeconds(String effectiveTime) {
-        long epochTime;
-        try {
-            epochTime = new SimpleDateFormat("yyyyMMdd").parse(effectiveTime).getTime();
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        return epochTime;
+    	return DateTimeUtil.compressedDateParse(effectiveTime);
     }
 
     /**
