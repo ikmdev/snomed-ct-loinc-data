@@ -16,12 +16,6 @@
     <name>snomed-ct-loinc-pipeline</name>
     <url>http://maven.apache.org</url>
 
-    <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -30,7 +24,7 @@
                 <version>1.0.0-SNAPSHOT</version>
                 <configuration>
                     <namespaceString>${origin.namespace}</namespaceString>
-                    <datastorePath>${user.home}/Solor/generated-data</datastorePath>
+                    <datastorePath>${dataStoreLocation}/${dataStore}</datastorePath>
                     <inputDirectoryPath>${user.home}/.m2/repository/dev/ikm/snomedctloinc/snomed-ct-loinc-origin/${project.version}/snomed-ct-loinc-origin-${project.version}-data.zip</inputDirectoryPath>
                     <dataOutputPath>${project.build.directory}</dataOutputPath>
                 </configuration>
@@ -46,5 +40,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
