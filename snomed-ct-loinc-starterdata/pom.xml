@@ -16,30 +16,13 @@
 
     <build>
         <plugins>
-            <!--plugin>
-                <groupId>dev.ikm.tinkar</groupId>
-                <artifactId>tinkar-data-maven-plugin</artifactId>
-                <version>${tinkar-starter-data.version}</version>
-                <executions>
-                    <execution>
-                        <id>load-data</id>
-                        <goals>
-                            <goal>generate-data</goal>
-                        </goals>
-                        <configuration>
-                            <dataStore>${user.home}/Solor/generated-data</dataStore>
-                            <exportFile>${user.home}/Solor/tinkar-export-starter-data-pb.zip</exportFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin-->
             <plugin>
                 <groupId>dev.ikm.snomedctloinc</groupId>
                 <artifactId>snomed-ct-loinc-starterdata-maven-plugin</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
                 <configuration>
                     <namespaceString>${origin.namespace}</namespaceString>
-                    <datastorePath>${user.home}/Solor/generated-data</datastorePath>
+                    <datastorePath>${dataStoreLocation}/${dataStore}</datastorePath>
                 </configuration>
                 <executions>
                     <execution>
