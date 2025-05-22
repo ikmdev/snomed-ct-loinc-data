@@ -12,12 +12,6 @@
     <artifactId>snomed-ct-loinc-integration</artifactId>
     <packaging>jar</packaging>
 
-<!--    <properties>-->
-<!--        <maven.compiler.source>21</maven.compiler.source>-->
-<!--        <maven.compiler.target>21</maven.compiler.target>-->
-<!--        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
-<!--    </properties>-->
-
     <name>snomed-ct-loinc-integration</name>
     <url>http://maven.apache.org</url>
 
@@ -58,6 +52,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>dev.ikm.tinkar</groupId>
+            <artifactId>reasoner-elk-snomed</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j2-impl</artifactId>
         </dependency>
@@ -76,10 +75,11 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>3.5.2</version>
                 <configuration>
+                    <reuseForks>false</reuseForks>
                     <systemPropertyVariables>
                         <datastorePath>${dataStoreLocation}/${dataStore}</datastorePath>
                     </systemPropertyVariables>
-<!--                    <skipITs>true</skipITs>-->
+                    <argLine>-Xmx8g</argLine>
                 </configuration>
                 <executions>
                     <execution>
