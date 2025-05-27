@@ -25,7 +25,7 @@ public class SnomedLoincElkSnomedDataBuilderTestIT extends ElkSnomedDataBuilderT
 
 	@BeforeEach
 	public void setUp() {
-		active_count = 378627; // TODO hardcoded values
+		active_count = 414019;
 		inactive_count = 28502;
 	}
 

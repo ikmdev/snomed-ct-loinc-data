@@ -229,10 +229,18 @@ public abstract class ElkSnomedCompareTestBase extends ElkSnomedTestBase {
 		LOG.info("Files exist");
 		LOG.info("\t" + axioms_file);
 		LOG.info("\t" + rels_file);
+
+		String edition;
+		if (descriptions_file.toFile().getName().contains("-en_")) {
+			edition = "US";
+		} else {
+			edition = "INT";
+		}
+
 		ElkSnomedData data = buildSnomedData();
 		{
 			Concept us_con = data.getConcept(ElkSnomedData.getNid(SnomedIds.us_nlm_module));
-			if (getEdition().startsWith("US")) {
+			if ("US".equals(edition)) {
 				assertNotNull(us_con);
 			} else {
 				assertNull(us_con);
@@ -245,7 +253,7 @@ public abstract class ElkSnomedCompareTestBase extends ElkSnomedTestBase {
 		snomedOntology.setNames();
 		{
 			Concept us_con = snomedOntology.getConcept(SnomedIds.us_nlm_module);
-			if (getEdition().startsWith("US")) {
+			if ("US".equals(edition)) {
 				assertNotNull(us_con);
 			} else {
 				assertNull(us_con);

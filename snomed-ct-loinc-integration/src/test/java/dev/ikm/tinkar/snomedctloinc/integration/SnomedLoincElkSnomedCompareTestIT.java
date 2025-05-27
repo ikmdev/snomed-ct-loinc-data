@@ -7,12 +7,10 @@ import dev.ikm.tinkar.reasoner.elksnomed.ElkSnomedCompareTestBase;
 import dev.ikm.tinkar.reasoner.elksnomed.SnomedVersionUs;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -24,17 +22,6 @@ public class SnomedLoincElkSnomedCompareTestIT extends ElkSnomedCompareTestBase 
 		test_case = "snomedct-us";
 	}
 
-	@BeforeEach
-	@Override
-	protected void filesExist() {
-		axioms_file = Paths.get(getDir(), "sct2_sRefset_OWLExpressionSnapshot_LO1010000_%s.txt".formatted(getVersion()));
-		concepts_file = Paths.get(getDir(), "sct2_Concept_Snapshot_LO1010000_%s.txt".formatted(getVersion()));
-		rels_file = Paths.get(getDir(), "sct2_Relationship_Snapshot_LO1010000_%s.txt".formatted(getVersion()));
-		values_file = Paths.get(getDir(), "sct2_RelationshipConcreteValues_Snapshot_LO1010000_%s.txt".formatted(getVersion()));
-		descriptions_file = Paths.get(getDir(), "sct2_Description_Snapshot-en_LO1010000_%s.txt".formatted(getVersion()));
-		super.filesExist();
-	}
-
 	@Override
 	public String getDir() {
         return "../snomed-ct-loinc-origin/target/origin-sources/SnomedCT_LOINCExtension_PRODUCTION_LO1010000_%sT120000Z/Snapshot/Terminology/"
@@ -43,7 +30,7 @@ public class SnomedLoincElkSnomedCompareTestIT extends ElkSnomedCompareTestBase 
 
 	@Override
 	public String getEdition() {
-		return "US";
+		return "LO1010000";
 	}
 
 	@Override

@@ -25,7 +25,8 @@ public class SnomedLoincElkSnomedClassifierTestIT extends ElkSnomedClassifierTes
 
     @BeforeEach
     public void setUp() {
-        expected_supercs_cnt = 620209; // TODO hardcoded value
+        expected_supercs_cnt = 660933;
+        expected_non_snomed_cnt = 414016;
     }
 
     @Override
