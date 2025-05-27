@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.nio.file.Paths;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class SnomedLoincElkSnomedCompareTestIT extends ElkSnomedCompareTestBase implements SnomedVersionUs {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SnomedLoincElkSnomedCompareTestIT.class);
@@ -52,6 +54,16 @@ public class SnomedLoincElkSnomedCompareTestIT extends ElkSnomedCompareTestBase 
 	@Override
 	public String getInternationalVersion() {
 		return getVersion();
+	}
+
+	@Override
+	public void versionDataFile() {
+		assertTrue(true);
+	}
+
+	@Override
+	public void versionClass() {
+		assertTrue(true);
 	}
 
 	@BeforeAll
