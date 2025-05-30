@@ -4,7 +4,7 @@
     <parent>
         <groupId>dev.ikm.snomedctloinc</groupId>
         <artifactId>snomed-ct-loinc-data</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-AR-483-SNAPSHOT</version>
     </parent>
 
     <artifactId>snomed-ct-loinc-export</artifactId>
