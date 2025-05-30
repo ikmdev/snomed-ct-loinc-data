@@ -1,10 +1,10 @@
 package dev.ikm.tinkar.snomedctloinc.integration;
 
+import dev.ikm.elk.snomed.test.SnomedVersionUs;
 import dev.ikm.tinkar.common.service.PrimitiveData;
 import dev.ikm.tinkar.common.service.ServiceKeys;
 import dev.ikm.tinkar.common.service.ServiceProperties;
-import dev.ikm.tinkar.reasoner.elksnomed.ElkSnomedCompareTestBase;
-import dev.ikm.tinkar.reasoner.elksnomed.SnomedVersionUs;
+import dev.ikm.tinkar.reasoner.elksnomed.test.ElkSnomedCompareTestBase;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.slf4j.Logger;
@@ -51,6 +51,11 @@ public class SnomedLoincElkSnomedCompareTestIT extends ElkSnomedCompareTestBase 
 	@Override
 	public void versionClass() {
 		assertTrue(true);
+	}
+
+	@Override
+	public String getEditionDir() {
+		return "x";
 	}
 
 	@BeforeAll
