@@ -6,7 +6,7 @@
     <parent>
         <groupId>dev.ikm.tinkar</groupId>
         <artifactId>snomed-ct-loinc-data-bom</artifactId>
-        <version>1.4.0</version>
+        <version>1.7.0-IKDT-1023-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
@@ -40,9 +40,19 @@
         <origin.working.directory>${project.build.directory}/origin-sources</origin.working.directory>
         <source.version>20250321T120000Z</source.version>
         <source.zip>${user.home}/Downloads/SnomedCT_LOINCExtension_PRODUCTION_LO1010000_${source.version}.zip</source.zip>
-        <dataStoreLocation>${project.basedir}/../../snomed-ct-data/target</dataStoreLocation>
-        <dataStore>snomedct-us</dataStore>
+        <snomed.source.zip>${user.home}/Downloads/SnomedCT_InternationalRF2_PRODUCTION_20250501T120000Z.zip</snomed.source.zip>
+        <fieldCategoriesStarterSetLocation>${user.home}/Downloads</fieldCategoriesStarterSetLocation>
+        <fieldCategoriesStarterSet>FieldCategories-nonprimordial-unreasoned-pb.zip</fieldCategoriesStarterSet>
+        <dataStoreLocation>${project.basedir}/../target</dataStoreLocation>
+        <dataStore>snomed-ct-loinc</dataStore>
+
+        <!-- starter data -->
+        <tinkar-starter-data.groupId>dev.ikm.data.tinkar</tinkar-starter-data.groupId>
+        <tinkar-starter-data.artifactId>tinkar-starter-data</tinkar-starter-data.artifactId>
+        <tinkar-starter-data.classifier>unreasoned-sa</tinkar-starter-data.classifier>
+        <tinkar-starter-data.version>1.2.0</tinkar-starter-data.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -139,6 +149,16 @@
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
                 <version>${jupiter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.ikm.tinkar</groupId>
+                <artifactId>reasoner-elk-snomed-test</artifactId>
+                <version>${tinkar-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.ikm.elk</groupId>
+                <artifactId>elk-snomed-test</artifactId>
+                <version>0.38.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
