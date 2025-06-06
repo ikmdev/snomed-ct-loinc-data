@@ -20,9 +20,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SnomedLoincElkSnomedDataBuilderTestIT extends ElkSnomedDataBuilderTestBase implements SnomedVersion {
+public class LoincElkSnomedDataBuilderTestIT extends ElkSnomedDataBuilderTestBase implements SnomedVersion {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SnomedLoincElkSnomedDataBuilderTestIT.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LoincElkSnomedDataBuilderTestIT.class);
 
     private static Path origin;
 
@@ -44,7 +44,7 @@ public class SnomedLoincElkSnomedDataBuilderTestIT extends ElkSnomedDataBuilderT
 
     @BeforeAll
     public static void startPrimitiveData() {
-        origin = IntegrationTestUtils.findOriginPath("SnomedCT_").resolve("Snapshot", "Terminology");
+        origin = IntegrationTestUtils.findOriginPath(Path.of("..", "snomed-ct-loinc-origin", "target", "origin-sources")).resolve("Snapshot", "Terminology");
         File datastorePath = new File(System.getProperty("datastorePath"));
         LOG.info("datastorePath: {}", datastorePath);
         ServiceProperties.set(ServiceKeys.DATA_STORE_ROOT, datastorePath);

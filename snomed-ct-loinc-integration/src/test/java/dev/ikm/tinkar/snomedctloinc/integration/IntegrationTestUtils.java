@@ -17,15 +17,15 @@ public final class IntegrationTestUtils {
     private IntegrationTestUtils() {
     }
 
-    public static Path findOriginPath(String... keywords) {
-        try (Stream<Path> stream = Files.walk(Path.of("..", "snomed-ct-loinc-origin", "target", "origin-sources"))
+    public static Path findOriginPath(Path rootPath) {
+        try (Stream<Path> stream = Files.walk(rootPath)
                 .filter(Files::isDirectory)
-                .filter(path -> Stream.of(keywords).allMatch(keyword -> path.toFile().getPath().contains(keyword)))) {
+                .filter(path -> path.toFile().getPath().contains("SnomedCT_"))) {
             Path directory = stream.findFirst().orElseThrow();
-            LOG.info("found origin directory [{}] for keywords: {}", directory, keywords);
+            LOG.info("found origin directory [{}]", directory);
             return directory;
         } catch (Exception ex) {
-            LOG.error("findOriginPath failed to locate directory for keywords: {}", keywords, ex);
+            LOG.error("findOriginPath failed to locate directory", ex);
             throw new RuntimeException(ex);
         }
     }
@@ -48,7 +48,7 @@ public final class IntegrationTestUtils {
                 .orElseThrow(() -> new RuntimeException("findVersionFromOrigin failed to determine version from origin: " + origin));
     }
 
-    private static Optional<File> findMatchingFile(Path directory, String fileName) {
+    public static Optional<File> findMatchingFile(Path directory, String fileName) {
         try (Stream<Path> stream = Files.list(directory)
                 .filter(path -> path.toFile().getName().startsWith(fileName))) {
             return stream.findFirst().map(Path::toFile);

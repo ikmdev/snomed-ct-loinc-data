@@ -14,18 +14,6 @@
 
     <name>snomed-ct-loinc-origin</name>
 
-    <!--    <distributionManagement>-->
-    <!--        <repository>-->
-    <!--            <id>nexus-releases</id>-->
-    <!--            <name>Nexus Releases</name>-->
-    <!--            <url></url>-->
-    <!--        </repository>-->
-    <!--        <snapshotRepository>-->
-    <!--            <id>nexus-snapshots</id>-->
-    <!--            <name>Nexus Snapshots</name>-->
-    <!--            <url></url>-->
-    <!--        </snapshotRepository>-->
-    <!--    </distributionManagement>-->
     <build>
         <plugins>
             <!-- Unzip source data -->
@@ -125,15 +113,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Deploy to Nexus -->
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-deploy-plugin</artifactId>-->
-            <!--                <version>3.1.2</version>-->
-            <!--                <configuration>-->
-
-            <!--                </configuration>-->
-            <!--            </plugin>-->
         </plugins>
     </build>
 </project>

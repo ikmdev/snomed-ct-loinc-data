@@ -15,15 +15,15 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SnomedLoincElkSnomedClassifierTestIT extends ElkSnomedClassifierTestBase implements SnomedVersion {
+public class LoincElkSnomedClassifierTestIT extends ElkSnomedClassifierTestBase implements SnomedVersion {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SnomedLoincElkSnomedClassifierTestIT.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LoincElkSnomedClassifierTestIT.class);
 
     private static Path origin;
 
     @BeforeAll
     public static void startPrimitiveData() {
-        origin = IntegrationTestUtils.findOriginPath("SnomedCT_").resolve("Snapshot", "Terminology");
+        origin = IntegrationTestUtils.findOriginPath(Path.of("..", "snomed-ct-loinc-origin", "target", "origin-sources")).resolve("Snapshot", "Terminology");
         File datastorePath = new File(System.getProperty("datastorePath"));
         LOG.info("datastorePath: {}", datastorePath);
         ServiceProperties.set(ServiceKeys.DATA_STORE_ROOT, datastorePath);
