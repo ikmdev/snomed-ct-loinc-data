@@ -5,12 +5,14 @@ import dev.ikm.elk.snomed.test.SnomedVersion;
 import dev.ikm.tinkar.common.service.PrimitiveData;
 import dev.ikm.tinkar.common.service.ServiceKeys;
 import dev.ikm.tinkar.common.service.ServiceProperties;
+import dev.ikm.tinkar.reasoner.elksnomed.ElkSnomedData;
 import dev.ikm.tinkar.reasoner.elksnomed.test.ElkSnomedDataBuilderTestBase;
 import dev.ikm.tinkar.reasoner.elksnomed.test.PrimitiveDataTestUtil;
 import dev.ikm.tinkar.terms.TinkarTerm;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +20,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LoincElkSnomedDataBuilderTestIT extends ElkSnomedDataBuilderTestBase implements SnomedVersion {
@@ -25,12 +28,15 @@ public class LoincElkSnomedDataBuilderTestIT extends ElkSnomedDataBuilderTestBas
     private static final Logger LOG = LoggerFactory.getLogger(LoincElkSnomedDataBuilderTestIT.class);
 
     private static Path origin;
+    private static Path originSnomed;
+    private static Path snomedConceptsFile;
 
     @BeforeEach
     public void setUp() throws Exception {
-        SnomedConcepts snomedConcepts = SnomedConcepts.init(concepts_file);
+        SnomedConcepts loincConcepts = SnomedConcepts.init(concepts_file);
+        SnomedConcepts snomedConcepts = SnomedConcepts.init(snomedConceptsFile);
         int totalCount = computeTotalCount();
-        int activeCount = snomedConcepts.getActiveCount();
+        int activeCount = snomedConcepts.getActiveCount() + loincConcepts.getActiveCount();
         int primordialCount = PrimitiveDataTestUtil.getPrimordialNids().size();
         int primordialSctidCount = PrimitiveDataTestUtil.getPrimordialNidsWithSctids().size();
         inactive_count = totalCount - activeCount - primordialCount + primordialSctidCount;
@@ -45,6 +51,10 @@ public class LoincElkSnomedDataBuilderTestIT extends ElkSnomedDataBuilderTestBas
     @BeforeAll
     public static void startPrimitiveData() {
         origin = IntegrationTestUtils.findOriginPath(Path.of("..", "snomed-ct-loinc-origin", "target", "origin-sources")).resolve("Snapshot", "Terminology");
+        originSnomed = IntegrationTestUtils.findOriginPath(Path.of("..", "..", "snomed-ct-data", "snomed-ct-origin", "target", "origin-sources")).resolve("Snapshot", "Terminology");
+        snomedConceptsFile = IntegrationTestUtils.findMatchingFile(originSnomed, "sct2_Concept_Snapshot_").map(File::toPath)
+                .orElseThrow(() -> new RuntimeException("unable to locate sct2_Concept_Snapshot file in SNOMED origin: " + originSnomed));
+
         File datastorePath = new File(System.getProperty("datastorePath"));
         LOG.info("datastorePath: {}", datastorePath);
         ServiceProperties.set(ServiceKeys.DATA_STORE_ROOT, datastorePath);
@@ -92,6 +102,20 @@ public class LoincElkSnomedDataBuilderTestIT extends ElkSnomedDataBuilderTestBas
     @Override
     public void versionClass() {
         assertTrue(true);
+    }
+
+    @Test
+    @Override
+    public void build() throws Exception {
+        ElkSnomedData data = buildSnomedData();
+        int primordial_cnt = PrimitiveDataTestUtil.getPrimordialNids().size();
+        int primordial_sctid_cnt = PrimitiveDataTestUtil.getPrimordialNidsWithSctids().size();
+        SnomedConcepts loinc_concepts = SnomedConcepts.init(concepts_file);
+        SnomedConcepts snomed_concepts = SnomedConcepts.init(snomedConceptsFile);
+        assertEquals(snomed_concepts.getActiveCount() + loinc_concepts.getActiveCount(), data.getActiveConceptCount() - primordial_cnt + primordial_sctid_cnt + 2);
+        assertEquals(inactive_count, data.getInactiveConceptCount());
+        assertEquals(data.getActiveConceptCount(), data.getConcepts().size());
+        assertEquals(data.getReasonerConceptSet().size(), data.getConcepts().size());
     }
 
 }
