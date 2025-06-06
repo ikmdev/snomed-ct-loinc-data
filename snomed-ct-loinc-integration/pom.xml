@@ -67,16 +67,6 @@
             <version>1.0.0-IKDT-1023-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>dev.ikm.tinkar</groupId>
-            <artifactId>reasoner-elk-snomed-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>dev.ikm.elk</groupId>
-            <artifactId>elk-snomed-test</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
