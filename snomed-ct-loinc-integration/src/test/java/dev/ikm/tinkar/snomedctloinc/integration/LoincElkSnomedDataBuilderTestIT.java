@@ -1,5 +1,6 @@
 package dev.ikm.tinkar.snomedctloinc.integration;
 
+import dev.ikm.elk.snomed.SnomedConcepts;
 import dev.ikm.elk.snomed.test.SnomedVersion;
 import dev.ikm.tinkar.common.service.PrimitiveData;
 import dev.ikm.tinkar.common.service.ServiceKeys;
@@ -15,13 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -96,14 +92,13 @@ public class LoincElkSnomedDataBuilderTestIT extends ElkSnomedDataBuilderTestBas
         ElkSnomedData data = buildSnomedData();
         int primordialCount = PrimitiveDataTestUtil.getPrimordialNids().size();
         int primordialSctidCount = PrimitiveDataTestUtil.getPrimordialNidsWithSctids().size();
-        Set<Long> loinc_concepts = loadConceptIds(concepts_file); // TODO add accessor for concept IDs to SnomedConcepts
-        Set<Long> snomed_concepts = loadConceptIds(snomedConceptsFile);
-        Set<Long> activeIds = new HashSet<>();
-        activeIds.addAll(loinc_concepts);
-        activeIds.addAll(snomed_concepts);
+
+        SnomedConcepts concepts = new SnomedConcepts();
+        concepts.load(concepts_file);
+        concepts.load(snomedConceptsFile);
 
         int totalCount = computeTotalCount();
-        int activeCount = activeIds.size();
+        int activeCount = concepts.getActiveCount();
         int inactiveCount = totalCount - activeCount - primordialCount + primordialSctidCount;
 
         assertEquals(activeCount, data.getActiveConceptCount() - primordialCount + primordialSctidCount);
@@ -122,13 +117,6 @@ public class LoincElkSnomedDataBuilderTestIT extends ElkSnomedDataBuilderTestBas
         AtomicInteger totalCounter = new AtomicInteger();
         PrimitiveData.get().forEachSemanticNidOfPattern(TinkarTerm.EL_PLUS_PLUS_STATED_AXIOMS_PATTERN.nid(), _ -> totalCounter.incrementAndGet());
         return totalCounter.get();
-    }
-
-    private Set<Long> loadConceptIds(Path file) throws IOException {
-        return Files.lines(file).skip(1).map(line -> line.split("\\t")) //
-                .filter(fields -> Integer.parseInt(fields[2]) == 1) // active
-                .map(fields -> Long.parseLong(fields[0]))
-                .collect(Collectors.toSet());
     }
 
 }
