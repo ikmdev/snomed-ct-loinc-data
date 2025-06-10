@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public final class IntegrationTestUtils {
@@ -31,27 +30,21 @@ public final class IntegrationTestUtils {
     }
 
     public static String findEditionFromOrigin(Path origin) {
-        return findMatchingFile(origin, "sct2_Concept_Snapshot")
-                .map(file -> {
-                    String[] nameParts = file.getName().split("_");
-                    return nameParts[3];
-                })
-                .orElseThrow(() -> new RuntimeException("findEditionFromOrigin failed to determine edition from origin: " + origin));
+        File file = findMatchingFile(origin, "sct2_Concept_Snapshot").toFile();
+        String[] nameParts = file.getName().split("_");
+        return nameParts[3];
     }
 
     public static String findVersionFromOrigin(Path origin) {
-        return findMatchingFile(origin, "sct2_Concept_Snapshot")
-                .map(file -> {
-                    String[] nameParts = file.getName().split("_");
-                    return nameParts[4].substring(0, 8);
-                })
-                .orElseThrow(() -> new RuntimeException("findVersionFromOrigin failed to determine version from origin: " + origin));
+        File file =  findMatchingFile(origin, "sct2_Concept_Snapshot").toFile();
+        String[] nameParts = file.getName().split("_");
+        return nameParts[4].substring(0, 8);
     }
 
-    public static Optional<File> findMatchingFile(Path directory, String fileName) {
+    public static Path findMatchingFile(Path directory, String fileName) {
         try (Stream<Path> stream = Files.list(directory)
                 .filter(path -> path.toFile().getName().startsWith(fileName))) {
-            return stream.findFirst().map(Path::toFile);
+            return stream.findFirst().orElseThrow(() -> new RuntimeException("unable to locate file: " + fileName));
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

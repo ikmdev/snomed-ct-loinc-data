@@ -34,8 +34,7 @@ public class LoincElkSnomedDataBuilderTestIT extends ElkSnomedDataBuilderTestBas
     public static void startPrimitiveData() {
         origin = IntegrationTestUtils.findOriginPath(Path.of("..", "snomed-ct-loinc-origin", "target", "origin-sources")).resolve("Snapshot", "Terminology");
         originSnomed = IntegrationTestUtils.findOriginPath(Path.of("..", "..", "snomed-ct-data", "snomed-ct-origin", "target", "origin-sources")).resolve("Snapshot", "Terminology");
-        snomedConceptsFile = IntegrationTestUtils.findMatchingFile(originSnomed, "sct2_Concept_Snapshot_").map(File::toPath)
-                .orElseThrow(() -> new RuntimeException("unable to locate sct2_Concept_Snapshot file in SNOMED origin: " + originSnomed));
+        snomedConceptsFile = IntegrationTestUtils.findMatchingFile(originSnomed, "sct2_Concept_Snapshot");
 
         File datastorePath = new File(System.getProperty("datastorePath"));
         LOG.info("datastorePath: {}", datastorePath);
