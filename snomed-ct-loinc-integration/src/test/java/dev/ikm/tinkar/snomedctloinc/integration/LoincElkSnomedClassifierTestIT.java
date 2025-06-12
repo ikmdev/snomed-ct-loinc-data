@@ -106,6 +106,7 @@ public class LoincElkSnomedClassifierTestIT extends ElkSnomedClassifierTestBase 
         SnomedOntologyReasoner reasoner = SnomedOntologyReasoner.create(ontology);
         int non_snomed_cnt = 0;
         int miss_cnt = 0;
+        int match_cnt = 0;
 
         SnomedIsa isas = new SnomedIsa();
         isas.load(rels_file);
@@ -137,18 +138,21 @@ public class LoincElkSnomedClassifierTestIT extends ElkSnomedClassifierTestBase 
             if (sctid == SnomedIds.root) {
                 assertTrue(parents.isEmpty());
                 // has a parent in the db
-                //assertEquals(1, sups.size()); // TODO
+                //assertEquals(1, sups.size()); // TODO sups is empty
                 assertEquals(TinkarTerm.PHENOMENON.nid(), reasoner.getSuperConcepts(nid).iterator().next());
                 continue;
             } else {
                 assertNotNull(parents);
             }
-            if (!parents.equals(sups)) {
-                LOG.warn("Miss: " + sctid);
+            if (parents.equals(sups)) {
+                match_cnt++;
+            } else {
+                LOG.warn("Miss: scid={} nid={} parents={} sups={}", sctid, nid, parents, sups);
                 miss_cnt++;
             }
         }
-        LOG.error("Miss cnt: " + miss_cnt);
+        LOG.info("Miss cnt: " + miss_cnt);
+        LOG.info("Match cnt: " + match_cnt);
 
         int primordialCount = PrimitiveDataTestUtil.getPrimordialNids().size();
         int primordialSctidCount = PrimitiveDataTestUtil.getPrimordialNidsWithSctids().size();

@@ -102,7 +102,7 @@ public class SnomedIsa {
 
 	private void initOrderedConcepts(long con, HashSet<Long> visited) {
 		for (long sub : getChildren(con)) {
-			boolean sups_visited = getParents(sub).stream().allMatch(x -> visited.contains(x));
+			boolean sups_visited = visited.containsAll(getParents(sub));
 			if (sups_visited) {
 				if (!visited.contains(sub)) {
 					orderedConcepts.add(sub);
