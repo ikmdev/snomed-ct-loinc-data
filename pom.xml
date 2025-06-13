@@ -6,7 +6,7 @@
     <parent>
         <groupId>dev.ikm.tinkar</groupId>
         <artifactId>snomed-ct-loinc-data-bom</artifactId>
-        <version>1.4.0</version>
+        <version>1.7.0</version>
         <relativePath/>
     </parent>
 
@@ -41,7 +41,7 @@
         <source.version>20250321T120000Z</source.version>
         <source.zip>${user.home}/Downloads/SnomedCT_LOINCExtension_PRODUCTION_LO1010000_${source.version}.zip</source.zip>
         <dataStoreLocation>${project.basedir}/../../snomed-ct-data/target</dataStoreLocation>
-        <dataStore>snomedct-us</dataStore>
+        <dataStore>snomedct-international</dataStore>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -139,6 +139,16 @@
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
                 <version>${jupiter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.ikm.tinkar</groupId>
+                <artifactId>reasoner-elk-snomed-test</artifactId>
+                <version>${tinkar-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.ikm.elk</groupId>
+                <artifactId>elk-snomed-test</artifactId>
+                <version>0.38.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
