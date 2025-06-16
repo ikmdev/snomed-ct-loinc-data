@@ -2,6 +2,7 @@ package dev.ikm.tinkar.snomedctloinc.integration;
 
 import dev.ikm.elk.snomed.SnomedDescriptions;
 import dev.ikm.elk.snomed.SnomedIds;
+import dev.ikm.elk.snomed.SnomedIsa;
 import dev.ikm.elk.snomed.SnomedOntology;
 import dev.ikm.elk.snomed.SnomedOntologyReasoner;
 import dev.ikm.elk.snomed.model.Concept;

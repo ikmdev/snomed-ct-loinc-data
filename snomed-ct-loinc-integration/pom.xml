@@ -72,11 +72,6 @@
             <artifactId>reasoner-elk-snomed-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>dev.ikm.elk</groupId>
-            <artifactId>elk-snomed-test</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
