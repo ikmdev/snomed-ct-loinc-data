@@ -53,27 +53,27 @@ public class SnomedctLoincStarterDataMojo extends AbstractMojo
 
             Composer composer = new Composer("Snomed CT Loinc Starter Data Composer");
 
+            EntityProxy.Concept snomedLoincAuthor = EntityProxy.Concept.make("SNOMED CT LOINC Collaboration Starter Data Author", UuidT5Generator.get(namespace, "SNOMED CT LOINC Collaboration Starter Data Author"));
             Session session = composer.open(State.ACTIVE,
-                    TinkarTerm.USER,
+                    snomedLoincAuthor,
                     TinkarTerm.PRIMORDIAL_MODULE,
                     TinkarTerm.PRIMORDIAL_PATH);
 
-            EntityProxy.Concept snomedLoincAuthor = EntityProxy.Concept.make("SNOMED CT LOINC Collaboration Author", UuidT5Generator.get(namespace, "SNOMED CT LOINC Collaboration Author"));
             session.compose((ConceptAssembler concept) -> concept
                     .concept(snomedLoincAuthor)
                     .attach((FullyQualifiedName fqn) -> fqn
                             .language(ENGLISH_LANGUAGE)
-                            .text("IHTSDO SNOMED CT LOINC Collaboration Author")
+                            .text("IHTSDO SNOMED CT LOINC Collaboration Starter Data Author")
                             .caseSignificance(DESCRIPTION_NOT_CASE_SENSITIVE)
                     )
                     .attach((Synonym synonym)-> synonym
                             .language(ENGLISH_LANGUAGE)
-                            .text("SNOMED CT LOINC Collaboration Author")
+                            .text("SNOMED CT LOINC Collaboration Starter Data Author")
                             .caseSignificance(DESCRIPTION_NOT_CASE_SENSITIVE)
                     )
                     .attach((Definition definition) -> definition
                             .language(ENGLISH_LANGUAGE)
-                            .text("International Health Terminology Standards Development Organisation (IHTSDO) SNOMED CT LOINC Collaboration Author")
+                            .text("International Health Terminology Standards Development Organisation (IHTSDO) SNOMED CT LOINC Collaboration Starter Data Author")
                             .caseSignificance(DESCRIPTION_NOT_CASE_SENSITIVE)
                     )
                     .attach((Identifier identifier) -> identifier
@@ -85,33 +85,6 @@ public class SnomedctLoincStarterDataMojo extends AbstractMojo
                     )
             );
 
-            // loincIdentifier is not needed
-            /*EntityProxy.Concept loincIdentifier = EntityProxy.Concept.make("LOINC Number",  UuidT5Generator.get(namespace,"705114005"));
-            session.compose((ConceptAssembler concept) -> concept
-                    .concept(loincIdentifier)
-                    .attach((FullyQualifiedName fqn) -> fqn
-                            .language(ENGLISH_LANGUAGE)
-                            .text("LOINC Number")
-                            .caseSignificance(DESCRIPTION_NOT_CASE_SENSITIVE)
-                    )
-                    .attach((Synonym synonym)-> synonym
-                            .language(ENGLISH_LANGUAGE)
-                            .text("LOINC Num")
-                            .caseSignificance(DESCRIPTION_NOT_CASE_SENSITIVE)
-                    )
-                    .attach((Definition definition) -> definition
-                            .language(ENGLISH_LANGUAGE)
-                            .text("Unique point of origin for identifier")
-                            .caseSignificance(DESCRIPTION_NOT_CASE_SENSITIVE)
-                    )
-                    .attach((Identifier identifier) -> identifier
-                            .source(TinkarTerm.UNIVERSALLY_UNIQUE_IDENTIFIER)
-                            .identifier(loincIdentifier.asUuidArray()[0].toString())
-                    )
-                    .attach((StatedAxiom statedAxiom) -> statedAxiom
-                            .isA(TinkarTerm.IDENTIFIER_SOURCE)
-                    )
-            );*/
             composer.commitSession(session);
             PrimitiveData.stop();
         } catch (Exception e) {
