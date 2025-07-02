@@ -15,12 +15,23 @@
  */
 package dev.ikm.maven;
 
+import dev.ikm.tinkar.common.id.PublicIds;
 import dev.ikm.tinkar.common.service.CachingService;
 import dev.ikm.tinkar.common.service.PrimitiveData;
 import dev.ikm.tinkar.common.service.ServiceKeys;
 import dev.ikm.tinkar.common.service.ServiceProperties;
 import dev.ikm.tinkar.composer.Composer;
+import dev.ikm.tinkar.composer.Session;
+import dev.ikm.tinkar.composer.assembler.ConceptAssembler;
+import dev.ikm.tinkar.composer.template.Definition;
+import dev.ikm.tinkar.composer.template.FullyQualifiedName;
+import dev.ikm.tinkar.composer.template.Identifier;
+import dev.ikm.tinkar.composer.template.StatedAxiom;
+import dev.ikm.tinkar.composer.template.Synonym;
 import dev.ikm.tinkar.entity.EntityService;
+import dev.ikm.tinkar.terms.EntityProxy;
+import dev.ikm.tinkar.terms.State;
+import dev.ikm.tinkar.terms.TinkarTerm;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +46,9 @@ import java.util.Arrays;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import static dev.ikm.tinkar.terms.TinkarTerm.DESCRIPTION_NOT_CASE_SENSITIVE;
+import static dev.ikm.tinkar.terms.TinkarTerm.ENGLISH_LANGUAGE;
 
 /**
  * Class for transforming all snomed files in a directory
@@ -139,6 +153,7 @@ public class SnomedLoincTransformationMojo extends AbstractMojo {
         EntityService.get().beginLoadPhase();
         try {
             Composer composer = new Composer("Snomed Transformer Composer");
+            createAuthor(composer);
             processFilesFromInput(inputFileOrDirectory, composer);
             composer.commitAllSessions();
         } finally {
@@ -146,6 +161,41 @@ public class SnomedLoincTransformationMojo extends AbstractMojo {
             PrimitiveData.stop();
             LOG.info("########## Snomed Transformer Finishing...");
         }
+    }
+    private void createAuthor(Composer composer) {
+        EntityProxy.Concept snomedLoincAuthor = SnomedLoincUtility.getUserConcept(namespace);
+        EntityProxy.Concept snomedLoincModule = EntityProxy.Concept.make(PublicIds.of(SnomedLoincUtility.generateUUID(namespace, "11010000107")));
+
+        Session session = composer.open(State.ACTIVE,
+                snomedLoincAuthor,
+                snomedLoincModule,
+                TinkarTerm.DEVELOPMENT_PATH);
+
+        session.compose((ConceptAssembler concept) -> concept
+                .concept(snomedLoincAuthor)
+                .attach((FullyQualifiedName fqn) -> fqn
+                        .language(ENGLISH_LANGUAGE)
+                        .text("IHTSDO SNOMED CT LOINC Collaboration Author")
+                        .caseSignificance(DESCRIPTION_NOT_CASE_SENSITIVE)
+                )
+                .attach((Synonym synonym)-> synonym
+                        .language(ENGLISH_LANGUAGE)
+                        .text("SNOMED CT LOINC Collaboration Author")
+                        .caseSignificance(DESCRIPTION_NOT_CASE_SENSITIVE)
+                )
+                .attach((Definition definition) -> definition
+                        .language(ENGLISH_LANGUAGE)
+                        .text("International Health Terminology Standards Development Organisation (IHTSDO) SNOMED CT LOINC Collaboration Author")
+                        .caseSignificance(DESCRIPTION_NOT_CASE_SENSITIVE)
+                )
+                .attach((Identifier identifier) -> identifier
+                        .source(TinkarTerm.UNIVERSALLY_UNIQUE_IDENTIFIER)
+                        .identifier(snomedLoincAuthor.asUuidArray()[0].toString())
+                )
+                .attach((StatedAxiom statedAxiom) -> statedAxiom
+                        .isA(TinkarTerm.USER)
+                )
+        );
     }
 
     private void initializeDatastore(File datastore){

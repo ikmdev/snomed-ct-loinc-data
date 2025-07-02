@@ -84,7 +84,7 @@
                     <systemPropertyVariables>
                         <datastorePath>${dataStoreLocation}/${dataStore}</datastorePath>
                     </systemPropertyVariables>
-<!--                    <skipITs>true</skipITs>-->
+                    <argLine>-Xmx10g</argLine>
                 </configuration>
                 <executions>
                     <execution>
