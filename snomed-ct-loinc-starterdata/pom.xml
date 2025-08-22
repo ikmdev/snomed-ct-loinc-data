@@ -23,7 +23,6 @@
                 <configuration>
                     <namespaceString>${origin.namespace}</namespaceString>
                     <datastorePath>${dataStoreLocation}/${dataStore}</datastorePath>
-                    <isolate>false</isolate>
                 </configuration>
                 <executions>
                     <execution>
