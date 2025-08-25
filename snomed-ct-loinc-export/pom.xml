@@ -75,7 +75,7 @@
                                     </formats>
                                     <fileSets>
                                         <fileSet>
-                                            <outputDirectory>${dataStore}</outputDirectory>
+                                            <outputDirectory>snomedct-loinc</outputDirectory>
                                             <directory>${dataStoreLocation}/${dataStore}</directory>
                                             <includes>
                                                 <include>**</include>
