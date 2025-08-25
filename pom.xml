@@ -29,6 +29,7 @@
     </modules>
 
     <properties>
+        <maven.version>3.9.11</maven.version>
         <!-- maven plugins -->
         <maven-artifacts.version>1.35.0</maven-artifacts.version>
         <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
