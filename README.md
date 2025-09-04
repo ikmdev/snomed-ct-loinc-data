@@ -37,4 +37,3 @@ mvn deploy -f snomed-ct-export "-DdeployToNexus=true" "-Dmaven.deploy.skip=true"
 ```
 
 9. You can create a reasoned or unreasoned dataset by either including or commenting out the snomed-ct-loinc-data/pom.xml <module>snomed-ct-loinc-reasoner</module>
-
