@@ -39,4 +39,3 @@ mvn deploy -f snomed-ct-loinc-export "-DdeployToNexus=true" "-Dmaven.deploy.skip
 ```
 
 - NOTE. This repo is built on top of an unreasoned spined array DB from snomed-ct-data. Therefore, make sure you have it built before running step #8.
-
