@@ -24,7 +24,7 @@
         <module>snomed-ct-loinc-pipeline</module>
         <module>snomed-ct-loinc-owl-transform</module>
         <module>snomed-ct-loinc-reasoner</module>
-<!--        <module>snomed-ct-loinc-integration</module>-->
+        <module>snomed-ct-loinc-integration</module>
         <module>snomed-ct-loinc-export</module>
     </modules>
 

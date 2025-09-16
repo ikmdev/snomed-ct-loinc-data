@@ -25,7 +25,7 @@ public class SnomedLoincConceptSemanticIT extends SnomedLoincAbstractIntegration
      */
     @Test
     public void testConceptSemantics() throws IOException {
-        String sourceFilePath = "../snomed-ct-loinc-origin/target/origin-sources";
+        String sourceFilePath = "../snomed-ct-loinc-pipeline/target/src";
         String errorFile = "target/failsafe-reports/concepts_not_found.txt";
 
         String absolutePath = findFilePath(sourceFilePath, "sct2_concept");

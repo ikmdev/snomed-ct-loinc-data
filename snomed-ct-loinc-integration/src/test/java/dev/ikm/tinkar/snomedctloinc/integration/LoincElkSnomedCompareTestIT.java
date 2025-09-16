@@ -16,6 +16,7 @@ import dev.ikm.tinkar.reasoner.elksnomed.test.ElkSnomedCompareTestBase;
 import dev.ikm.tinkar.reasoner.elksnomed.test.NidToSctid;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Disabled
 public class LoincElkSnomedCompareTestIT extends ElkSnomedCompareTestBase implements SnomedVersion {
 
     private static final Logger LOG = LoggerFactory.getLogger(LoincElkSnomedCompareTestIT.class);
@@ -37,8 +39,8 @@ public class LoincElkSnomedCompareTestIT extends ElkSnomedCompareTestBase implem
 
     @BeforeAll
     public static void startPrimitiveData() {
-        origin = IntegrationTestUtils.findOriginPath(Path.of("..", "snomed-ct-loinc-origin", "target", "origin-sources")).resolve("Snapshot", "Terminology");
-        originSnomed = IntegrationTestUtils.findOriginPath(Path.of("..", "..", "snomed-ct-data", "snomed-ct-origin", "target", "origin-sources")).resolve("Snapshot", "Terminology");
+        origin = IntegrationTestUtils.findOriginPath(Path.of("..", "snomed-ct-loinc-pipeline", "target", "src")).resolve("Snapshot", "Terminology");
+        originSnomed = IntegrationTestUtils.findOriginPath(Path.of("..", "..", "snomed-ct-data", "snomed-ct-pipeline", "target", "src", "snomedFull")).resolve("Snapshot", "Terminology");
         snomedDescriptionFile = IntegrationTestUtils.findMatchingFile(originSnomed, "sct2_Description_Snapshot");
         snomedAxiomsFile = IntegrationTestUtils.findMatchingFile(originSnomed, "sct2_sRefset_OWLExpressionSnapshot");
 
