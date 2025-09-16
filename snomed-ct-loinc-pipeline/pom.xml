@@ -21,7 +21,6 @@
             <plugin>
                 <groupId>dev.ikm.snomedctloinc</groupId>
                 <artifactId>snomed-ct-loinc-transformation-maven-plugin</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
                 <configuration>
                     <namespaceString>${origin.namespace}</namespaceString>
                     <datastorePath>${dataStoreLocation}/${dataStore}</datastorePath>
