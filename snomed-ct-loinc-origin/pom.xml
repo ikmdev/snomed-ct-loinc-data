@@ -91,6 +91,7 @@
                                 </goals>
                                 <configuration>
                                     <inlineDescriptors>
+                                        <appendAssemblyId>false</appendAssemblyId>
                                         <inlineDescriptor>
                                             <id>data</id>
                                             <formats>
