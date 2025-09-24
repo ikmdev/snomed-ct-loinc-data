@@ -30,7 +30,7 @@ More information can be found on: https://www.nlm.nih.gov/healthit/snomedct/inde
 
 2. Ensure the properties defined in snomed-ct-loinc-data/pom.xml are set to the correct file names:
    - <source.zip>
-   - <snomedct.version> (requires SNOMEDCT INT origin artifact)
+   - <snomedct.version> (requires SNOMEDCT INT data artifact)
 
 3. Run origin packaging and deployment.
 
