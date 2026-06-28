@@ -90,8 +90,8 @@
                                     <goal>single</goal>
                                 </goals>
                                 <configuration>
+                                    <appendAssemblyId>false</appendAssemblyId>
                                     <inlineDescriptors>
-                                        <appendAssemblyId>false</appendAssemblyId>
                                         <inlineDescriptor>
                                             <id>data</id>
                                             <formats>
