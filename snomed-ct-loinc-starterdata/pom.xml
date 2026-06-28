@@ -20,7 +20,7 @@
                 <groupId>dev.ikm.snomedctloinc</groupId>
                 <artifactId>snomed-ct-loinc-starterdata-maven-plugin</artifactId>
                 <configuration>
-                    <namespaceString>${origin.namespace}</namespaceString>
+                    <namespaceString>${snomed.origin.namespace}</namespaceString>
                     <datastorePath>${dataStoreLocation}/${dataStore}</datastorePath>
                 </configuration>
                 <executions>

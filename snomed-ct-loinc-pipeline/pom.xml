@@ -48,7 +48,8 @@
                 <groupId>dev.ikm.snomedctloinc</groupId>
                 <artifactId>snomed-ct-loinc-transformation-maven-plugin</artifactId>
                 <configuration>
-                    <namespaceString>${origin.namespace}</namespaceString>
+                    <snomedNamespaceString>${snomed.origin.namespace}</snomedNamespaceString>
+                    <loincNamespaceString>${loinc.origin.namespace}</loincNamespaceString>
                     <datastorePath>${dataStoreLocation}/${dataStore}</datastorePath>
                     <inputDirectoryPath>${dataStoreLocation}/input-data/snomedctloinc-origin.zip</inputDirectoryPath>
                     <dataOutputPath>${project.build.directory}</dataOutputPath>

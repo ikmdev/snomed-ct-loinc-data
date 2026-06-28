@@ -53,8 +53,12 @@
                                     <packagerName>${packager.name}</packagerName>
                                     <originVersion>${project.version}</originVersion>
                                     <originURL>${origin.url}</originURL>
-                                    <originNamespace>${origin.namespace}</originNamespace>
+                                    <originNamespace>${snomed.origin.namespace},${loinc.origin.namespace}</originNamespace>
                                     <outputDirectory>${origin.working.directory}</outputDirectory>
+                                    <additionalManifestParametersMap>
+                                        <Snomed-Origin-Namespace>${snomed.origin.namespace}</Snomed-Origin-Namespace>
+                                        <Loinc-Origin-Namespace>${loinc.origin.namespace}</Loinc-Origin-Namespace>
+                                    </additionalManifestParametersMap>
                                 </configuration>
                             </execution>
                         </executions>

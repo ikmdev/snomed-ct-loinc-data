@@ -67,7 +67,8 @@
         <!-- origin -->
         <packager.name>IKM Dev</packager.name>
         <origin.url>https://www.nlm.nih.gov/healthit/snomedct/us_edition.html</origin.url>
-        <origin.namespace>3094dbd1-60cf-44a6-92e3-0bb32ca4d3de</origin.namespace>
+        <snomed.origin.namespace>3094dbd1-60cf-44a6-92e3-0bb32ca4d3de</snomed.origin.namespace>
+        <loinc.origin.namespace>7b880c4c-8e54-5625-863c-c8504fa78243</loinc.origin.namespace>
 
         <!-- reasoner options (ElkOwlReasoner, ElkSnomedReasoner, HybridReasoner)-->
         <reasoner-type>ElkSnomedReasoner</reasoner-type>

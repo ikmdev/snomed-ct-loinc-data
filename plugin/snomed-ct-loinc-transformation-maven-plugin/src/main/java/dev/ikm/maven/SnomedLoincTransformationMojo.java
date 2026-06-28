@@ -57,8 +57,10 @@ import static dev.ikm.tinkar.terms.TinkarTerm.ENGLISH_LANGUAGE;
 public class SnomedLoincTransformationMojo extends AbstractMojo {
     private static final Logger LOG = LoggerFactory.getLogger(SnomedLoincTransformationMojo.class.getSimpleName());
 
-    @Parameter(property = "origin.namespace", required = true)
-    String namespaceString;
+    @Parameter(property = "snomedNamespaceString", required = true)
+    String snomedNamespaceString;
+    @Parameter(property = "loincNamespaceString", required = true)
+    String loincNamespaceString;
     @Parameter(property = "datastorePath", required = true)
     private String datastorePath;
     @Parameter(property = "inputDirectoryPath", required = true)
@@ -68,11 +70,13 @@ public class SnomedLoincTransformationMojo extends AbstractMojo {
     @Parameter(property = "controllerName", defaultValue = "Open SpinedArrayStore")
     private String controllerName;
 
-    private UUID namespace;
+    private UUID snomedNamespace;
+    private UUID loincNamespace;
 
     public void execute() throws MojoExecutionException {
         try {
-            this.namespace = UUID.fromString(namespaceString);
+            this.snomedNamespace = UUID.fromString(snomedNamespaceString);
+            this.loincNamespace = UUID.fromString(loincNamespaceString);
             File datastore = new File(datastorePath);
             String unzippedData = unzipRawData(inputDirectoryPath);
             File inputFileOrDirectory = new File(unzippedData);
@@ -163,8 +167,9 @@ public class SnomedLoincTransformationMojo extends AbstractMojo {
         }
     }
     private void createAuthor(Composer composer) {
-        EntityProxy.Concept snomedLoincAuthor = SnomedLoincUtility.getUserConcept(namespace);
-        EntityProxy.Concept snomedLoincModule = EntityProxy.Concept.make(PublicIds.of(SnomedLoincUtility.generateUUID(namespace, "11010000107")));
+        // Snomed-Loinc Collab Author and Module do not have an associated LOINC code
+        EntityProxy.Concept snomedLoincAuthor = SnomedLoincUtility.getUserConcept(snomedNamespace);
+        EntityProxy.Concept snomedLoincModule = EntityProxy.Concept.make(PublicIds.of(SnomedLoincUtility.generateUUID(snomedNamespace, "11010000107")));
 
         Session session = composer.open(State.ACTIVE,
                 snomedLoincAuthor,
@@ -235,17 +240,17 @@ public class SnomedLoincTransformationMojo extends AbstractMojo {
      */
     private Transformer getTransformer(String fileName) {
         if(fileName.contains("Concept")){
-            return new ConceptTransformer(namespace);
+            return new ConceptTransformer(snomedNamespace);
         } else if(fileName.contains("Definition")){
-            return new DefinitionTransformer(namespace);
+            return new DefinitionTransformer(snomedNamespace);
         } else if(fileName.contains("Description")){
-            return new DescriptionTransformer(namespace);
+            return new DescriptionTransformer(snomedNamespace);
         } else if(fileName.contains("Language")){
-            return new LanguageTransformer(namespace);
+            return new LanguageTransformer(snomedNamespace);
         } else if(fileName.contains("Identifier")){
-            return new IdentifierTransformer(namespace);
+            return new IdentifierTransformer(snomedNamespace, loincNamespace);
         } else if(fileName.contains("OWLExpression")){
-            return new AxiomSyntaxTransformer(namespace);
+            return new AxiomSyntaxTransformer(snomedNamespace);
         }
         return null;
     }

@@ -18,7 +18,7 @@ package dev.ikm.maven;
 
 import dev.ikm.tinkar.common.id.PublicId;
 import dev.ikm.tinkar.common.id.PublicIds;
-import dev.ikm.tinkar.common.util.uuid.UuidUtil;
+import dev.ikm.tinkar.common.util.uuid.UuidT5Generator;
 import dev.ikm.tinkar.composer.Composer;
 import dev.ikm.tinkar.composer.Session;
 import dev.ikm.tinkar.composer.assembler.ConceptAssembler;
@@ -89,14 +89,22 @@ public class ConceptTransformer extends AbstractTransformer {
 //        }
         EntityProxy.Concept concept = EntityProxy.Concept.make(publicId);
 
+        // TODO: make this deduplication workaround more robust (also in IdentifierTransformer, snomed-ct-data, and loinc-data)
+        UUID uuidForSnomedUuidSemantic = UuidT5Generator.singleSemanticUuid(TinkarTerm.IDENTIFIER_PATTERN, publicId);
+        UUID uuidForSnomedIdSemantic = UuidT5Generator.singleSemanticUuid(TinkarTerm.IDENTIFIER_PATTERN, PublicIds.of(UuidT5Generator.get(rowId)));
+        EntityProxy.Semantic snomedUuidSemantic = EntityProxy.Semantic.make(PublicIds.of(uuidForSnomedUuidSemantic));
+        EntityProxy.Semantic snomedIdSemantic = EntityProxy.Semantic.make(PublicIds.of(uuidForSnomedIdSemantic));
+
         if (!rowId.equals(previousRowId)) {
             session.compose((ConceptAssembler conceptAssembler) -> conceptAssembler
                     .concept(concept)
                     .attach((Identifier identifier) -> identifier
+                            .semantic(snomedUuidSemantic)
                             .source(TinkarTerm.UNIVERSALLY_UNIQUE_IDENTIFIER)
                             .identifier(concept.asUuidArray()[0].toString())
                     )
                     .attach((Identifier identifier) -> identifier
+                            .semantic(snomedIdSemantic)
                             .source(TinkarTerm.SCTID)
                             .identifier(rowId)
                     )
